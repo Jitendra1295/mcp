@@ -14,6 +14,8 @@ app.use(express.json());
 app.get("/health", (req, res) => {
     res.json({
         success: true,
+        source: "Mini Sherlocq App",
+        generatedBy: "Mini Sherlocq App",
         message: "Mini Sherlocq API is running",
     });
 });
@@ -105,6 +107,8 @@ app.post("/api/ask", async (req, res) => {
 
         return res.status(200).json({
             success: true,
+            source: "Mini Sherlocq App",
+            generatedBy: "Mini Sherlocq App",
             data: {
                 question: trimmedQuestion,
                 answer,
