@@ -1,0 +1,11 @@
+{
+  "name": "mini-sherlocq-mcp",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/start-local.js",
+    "dev": "node scripts/start-local.js",
+    "start:remote": "node scripts/start-local.js --remote"
+  }
+}

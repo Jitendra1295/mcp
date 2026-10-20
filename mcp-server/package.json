@@ -1,0 +1,31 @@
+{
+  "name": "mcp-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test",
+    "dev": "nodemon src/index.js",
+    "predev:http": "node scripts/setup-oauth-secrets.js",
+    "dev:http": "nodemon --exec \"node --env-file=.env\" src/index.js --http",
+    "start": "node src/index.js",
+    "start:http": "node --env-file=.env src/index.js --http",
+    "build:frontend": "npm --prefix ../frontend run build",
+    "setup:secrets": "node scripts/setup-oauth-secrets.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.3.1",
+    "bcryptjs": "^3.0.3",
+    "express-rate-limit": "^8.7.1",
+    "express-session": "^1.19.0",
+    "oidc-provider": "^9.12.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "type": "module"
+}
