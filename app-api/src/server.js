@@ -2,6 +2,10 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const { readFileSync } = require("node:fs");
+const { join } = require("node:path");
+
+const responseSkill = readFileSync(join(__dirname, "../../shared/response-skill.md"), "utf8");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -79,6 +83,10 @@ app.post("/api/ask", async (req, res) => {
                 body: JSON.stringify({
                     model: "openrouter/free",
                     messages: [
+                        {
+                            role: "system",
+                            content: `${responseSkill}\nThe MCP tool wrapper adds source attribution; do not add the source line to your generated answer.`,
+                        },
                         {
                             role: "user",
                             content: trimmedQuestion,

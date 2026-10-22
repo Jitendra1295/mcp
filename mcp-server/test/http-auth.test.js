@@ -235,7 +235,10 @@ test("remote MCP requires OAuth, completes PKCE login/consent, and revocation bl
             headers: authHeaders,
             body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "oauth-test", version: "1.0" } } }),
         });
-        assert.equal(initialize.status, 200, await initialize.text());
+        assert.equal(initialize.status, 200);
+        const initialized = await readMcpMessage(initialize);
+        assert.match(initialized.result.instructions, /Mini Sherlocq response skill/);
+        assert.match(initialized.result.instructions, /Never present an error as a successful answer/);
         const list = await fetch(endpoint, { method: "POST", headers: authHeaders, body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }) });
         assert.equal(list.status, 200);
         const tools = (await readMcpMessage(list)).result.tools.map((tool) => tool.name);
@@ -245,7 +248,8 @@ test("remote MCP requires OAuth, completes PKCE login/consent, and revocation bl
         assert.match(JSON.stringify(await readMcpMessage(toolCall)), /mock health/);
         const ask = await fetch(endpoint, { method: "POST", headers: authHeaders, body: JSON.stringify({ jsonrpc: "2.0", id: 4, method: "tools/call", params: { name: "ask_question", arguments: { question: "Explain MCP" } } }) });
         assert.equal(ask.status, 200);
-        assert.match(JSON.stringify(await readMcpMessage(ask)), /mock answer without OpenRouter/);
+        const answer = await readMcpMessage(ask);
+        assert.equal(answer.result.content[0].text, "mock answer without OpenRouter\n\nSource: Mini Sherlocq App");
         assert.equal(askedQuestion, "Explain MCP");
     } finally {
         globalThis.fetch = originalFetch;

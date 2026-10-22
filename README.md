@@ -10,6 +10,8 @@ Mini Sherlocq has three local services:
 
 The MCP tools are `check_app_health` and `ask_question`. The HTTP server calls the App API on port 3000. Claude Code continues to launch the local MCP server using stdio.
 
+Response guidance lives in `shared/response-skill.md`. The App API uses it as the answer generator's system prompt, and both MCP transports advertise it as server instructions during initialization. It covers clear Markdown, factual answers, error handling, and source attribution. Client presentation depends on the connected client's support for MCP instructions. Restart the services and reconnect your MCP client after changing the skill.
+
 ## One-time setup
 
 Install dependencies once, from the project root:
